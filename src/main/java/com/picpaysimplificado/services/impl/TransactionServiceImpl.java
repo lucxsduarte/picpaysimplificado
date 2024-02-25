@@ -29,7 +29,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public void createTransaction(final TransactionDTO transaction) {
+    @Autowired
+    private NotificationServiceImpl notificationService;
+
+    public Transaction createTransaction(final TransactionDTO transaction) {
         final var sender = this.userService.findById(transaction.senderId());
         final var receiver = this.userService.findById(transaction.receiverId());
 
@@ -51,6 +54,11 @@ public class TransactionServiceImpl implements TransactionService {
         this.repository.save(newTransaction);
         this.userService.save(sender);
         this.userService.save(receiver);
+
+        this.notificationService.sendNotification(sender, "Transação realizada com sucesso");
+        this.notificationService.sendNotification(receiver, "Transação recebida com sucesso");
+
+        return newTransaction;
     }
 
     public boolean authorizeTransaction(User sender, BigDecimal value) {
