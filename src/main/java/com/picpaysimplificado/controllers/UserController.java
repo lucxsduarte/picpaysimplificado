@@ -17,9 +17,11 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody UserDTO user) {
-        final var newUser = userService.createUser(user);
+        var newUser = new User(user);
+        userService.save(newUser);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
@@ -28,6 +30,12 @@ public class UserController {
         var newUser = new User(user);
         newUser.setId(id);
         userService.update(newUser);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.delete(id);
         return ResponseEntity.ok().build();
     }
 

@@ -2,7 +2,6 @@ package com.picpaysimplificado.services.impl;
 
 import com.picpaysimplificado.domain.user.User;
 import com.picpaysimplificado.domain.user.UserType;
-import com.picpaysimplificado.dtos.UserDTO;
 import com.picpaysimplificado.repositories.UserRepository;
 import com.picpaysimplificado.services.UserService;
 import com.picpaysimplificado.services.exceptions.IntegrityViolation;
@@ -38,12 +37,6 @@ public class UserServiceImpl implements UserService {
     public User update(final User user) {
         findById(user.getId());
         return repository.save(user);
-    }
-
-    public User createUser(UserDTO data) {
-        final var newUser = new User(data);
-        this.save(newUser);
-        return newUser;
     }
 
     @Override
