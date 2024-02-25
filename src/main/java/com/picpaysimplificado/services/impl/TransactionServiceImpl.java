@@ -77,12 +77,6 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction update(final Transaction transaction) {
-        findById(transaction.getId());
-        return repository.save(transaction);
-    }
-
-    @Override
     public void delete(final Long id) {
         final var transaction = findById(id);
         repository.delete(transaction);

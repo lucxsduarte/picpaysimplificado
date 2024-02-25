@@ -21,7 +21,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody UserDTO user) {
         var newUser = new User(user);
-        userService.save(newUser);
+        this.userService.save(newUser);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
@@ -29,25 +29,25 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserDTO user) {
         var newUser = new User(user);
         newUser.setId(id);
-        userService.update(newUser);
+        this.userService.update(newUser);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.delete(id);
+        this.userService.delete(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
     public ResponseEntity<List<User>> listAll() {
-        final var list = userService.listAll();
+        final var list = this.userService.listAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @GetMapping("/document/{document}")
     public ResponseEntity<Optional<User>> findByDocumento(@PathVariable String document) {
-        final var user = userService.findByDocument(document);
+        final var user = this.userService.findByDocument(document);
         if (user.isPresent()) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
@@ -57,9 +57,9 @@ public class UserController {
 
     @GetMapping("/firstname/{firstname}")
     public ResponseEntity<List<User>> findByFirstName(@PathVariable String firstname) {
-        final var list = userService.findByFirstName(firstname);
+        final var list = this.userService.findByFirstName(firstname);
         if (list.isEmpty()) {
-            return new ResponseEntity<>(list, HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         } else {
             return new ResponseEntity<>(list, HttpStatus.OK);
         }

@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface TransactionService {
     Transaction save(Transaction transaction);
-    Transaction update(Transaction transaction);
     void delete(Long id);
     Transaction findById(Long id);
     List<Transaction> listAll();
