@@ -52,7 +52,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> listAll() {
-        return repository.findAll();
+        final var list = repository.findAll();
+        if (list.isEmpty()) {
+            throw new ObjectNotFound("Nenhum usuário encontrado");
+        }
+        return list;
     }
 
     @Override
