@@ -26,6 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
     private RestTemplate restTemplate;
 
     public void createTransaction(final TransactionDTO transaction) {
