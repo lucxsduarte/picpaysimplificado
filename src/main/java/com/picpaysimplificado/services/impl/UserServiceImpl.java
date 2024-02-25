@@ -35,12 +35,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(final User user) {
-        return null;
+        return repository.save(user);
     }
 
     @Override
     public void delete(final Long id) {
-
+        final var user = findById(id);
+        repository.delete(user);
     }
 
     @Override
@@ -51,16 +52,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> listAll() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
     public Optional<User> findByDocument(final String document) {
-        return Optional.empty();
+        final var user = repository.findByDocument(document);
+        if (user.isEmpty()) {
+            throw new ObjectNotFound("Nenhum usuário encontrado");
+        }
+        return user;
     }
 
     @Override
     public List<User> findByFirstName(final String firstName) {
-        return null;
+        final var list = repository.findByFirstName(firstName);
+        if (list.isEmpty()) {
+            throw new ObjectNotFound("Nenhum usuário encontrado");
+        }
+        return list;
     }
 }
