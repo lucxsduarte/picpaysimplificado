@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -26,6 +27,26 @@ public class UserController {
     public ResponseEntity<List<User>> listAll() {
         final var list = userService.listAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/document/{document}")
+    public ResponseEntity<Optional<User>> findByDocumento(@PathVariable String document) {
+        final var user = userService.findByDocument(document);
+        if (user.isPresent()) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/firstname/{firstname}")
+    public ResponseEntity<List<User>> findByFirstName(@PathVariable String firstname) {
+        final var list = userService.findByFirstName(firstname);
+        if (list.isEmpty()) {
+            return new ResponseEntity<>(list, HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
     }
 
 }
