@@ -23,6 +23,14 @@ public class UserController {
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserDTO user) {
+        var newUser = new User(user);
+        newUser.setId(id);
+        userService.update(newUser);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping
     public ResponseEntity<List<User>> listAll() {
         final var list = userService.listAll();

@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(final User user) {
+        findById(user.getId());
         return repository.save(user);
     }
 
